@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import '@mantine/core/styles.css';
+import '@mantine/carousel/styles.css';
+import '@mantine/notifications/styles.css';
+import { Notifications, notifications } from '@mantine/notifications';
+import './App.css';
+import { AppShell, Box, Flex, LoadingOverlay, Text } from '@mantine/core';
+import RouterSwitcher from './RouterSwitcher';
+import { useBeforeUnload } from 'react-router-dom';
+import { useState } from 'react';
+import { useOnline, useParams } from './hooks';
+import { Header, Navbar } from './components';
 
-function App() {
-  const [count, setCount] = useState(0)
+export function App({ collections }: any) {
+  useBeforeUnload(() => { confirm('refreshing window') })
+
+  const isOnline = useOnline({
+    online: [() => { notifications.show({ color: 'green', title: '🛜 Network Restored', message: 'You are back online! ' }) }],
+    offline: [() => { notifications.show({ color: 'red', title: '❗ Network Error', message: 'Connection to the network has been lost! ' }) }]
+  });
+  const params = useParams(['nosave', 'noprint'])
+  const [opened, setOpened] = useState(false)
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="App" >
+      <AppShell
+        header={{ height: 55 }}
+        navbar={{ width: 120, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        padding="sm"
+      >
+        <Header opened={opened} setOpened={(e: any) => setOpened(e)} />
+        <Navbar close={() => setOpened(false)}/>
+        <AppShell.Main>
+          <Notifications position="top-right" />
+          <Box pos='relative'>
+            <LoadingOverlay visible={!isOnline} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} loaderProps={{ size: 'xl', color: 'pink', type: 'bars' }} />
+            <RouterSwitcher collections={collections} />
+          </Box>
+        </AppShell.Main>
+        <AppShell.Footer zIndex={opened ? 'auto' : 201}>
+          <Flex justify="center">
+            <Text size="xs">Copyright<span>&copy;</span> Habitat for Humanity Tucson 2024</Text>
+          </Flex>
+        </AppShell.Footer>
+      </AppShell>
+    </div>
+  );
+
 }
 
-export default App

@@ -1,1 +1,45 @@
 /// <reference types="vite/client" />
+
+
+type ShopifyResponseT = {
+    theList: {}
+    theProduct: {
+        data: {
+            customer: ShopifyCustomerT[]
+        }
+    }
+}
+type ShopifyCustomerT = {
+    id: number
+    addresses: ShopifyAddressT[] | []
+    default_address: ShopifyAddressT | null
+    created_at: string
+    updated_at: string
+    email: string | null
+    first_name: string | null
+    last_name: string | null
+    last_order_id: number | null
+    notes: string
+    orders_count: number
+    phone: string
+    state: any
+    tags: string  | null
+    total_spent: string
+    verified_email: boolean
+}
+type ShopifyAddressT = {
+    id: number
+    address1: string | null
+    address2: string | null
+    city: string | null
+    company: string | null
+    country: string | null
+    customer_id: number
+    first_name: string | null
+    last_name: string | null
+    name: string | null
+    phone: string | null
+    province: string | null
+    province_code: string | null
+    zip: string | null
+}
