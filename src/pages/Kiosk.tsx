@@ -1,10 +1,10 @@
-import { ShopifyPhone } from "../components";
+import { ShopifyCustomer, ShopifyPhone } from "../components";
 
 export function Kiosk({ props }: any) {
   return (
     <>
-      <div>Kiok</div>
-      <ShopifyPhone />
+      <ShopifyPhone onChange={(e: any) => console.log(e)} />
+      <ShopifyCustomer />
     </>
   )
 }

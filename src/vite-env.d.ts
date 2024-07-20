@@ -5,7 +5,7 @@ type ShopifyResponseT = {
     theList: {}
     theProduct: {
         data: {
-            customer: ShopifyCustomerT[]
+            customers: ShopifyCustomerT[]
         }
     }
 }

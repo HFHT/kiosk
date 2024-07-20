@@ -1,4 +1,4 @@
-import { Flex, Burger, Button, Text, useMantineColorScheme, useComputedColorScheme, AppShell, Avatar, useMantineTheme } from '@mantine/core';
+import { Flex, Burger, Button, Text, useMantineColorScheme, useComputedColorScheme, AppShell, Avatar, useMantineTheme, Title } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { IconMoonFilled, IconSunFilled } from '@tabler/icons-react';
 const Logo = () => {
@@ -33,7 +33,7 @@ export function Header({ setOpened, opened }: any) {
       <Flex justify="space-between" align="center" style={{ padding: '10px 20px' }}>
         <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom="sm" size="sm" />
         <div><Logo /></div>
-        <Text size='xl'>Customer Kiosk</Text>
+        <Title order={1}>Customer Kiosk</Title>
         <Button size={mobile ? "xs" : "sm"} variant="link" onClick={toggleColorScheme}>
           {computedColorScheme === 'dark' ? <IconSunFilled /> : <IconMoonFilled />}
         </Button>

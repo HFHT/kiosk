@@ -1,4 +1,4 @@
-import React from 'react'
+import './index.css';
 import ReactDOM from 'react-dom/client'
 import { createTheme, MantineProvider } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,6 +9,10 @@ const theme = createTheme({
   /** Put your mantine theme override here */
   fontFamily: 'Montserrat, sans-serif',
   defaultRadius: 'md',
+  headings: {
+    fontWeight: '400',
+    fontFamily: 'monospace'
+  }
 });
 const headers = new Headers
 async function getCollections() {
@@ -36,13 +40,11 @@ async function getCollections() {
     const results = await getCollections().then(data => data)
 
     ReactDOM.createRoot(document.getElementById('root')!).render(
-      <React.StrictMode>
-        <MantineProvider theme={theme}>
-          <BrowserRouter>
-            <App props={null} />
-          </BrowserRouter>
-        </MantineProvider>
-      </React.StrictMode>
+      <MantineProvider theme={theme}>
+        <BrowserRouter>
+          <App props={null} />
+        </BrowserRouter>
+      </MantineProvider>
     )
   }
   catch (e) {
