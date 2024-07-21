@@ -6,7 +6,6 @@ const RouteSwitcher = ({ props }: any) => {
         <Routes>
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Kiosk props={props}/>} />
-
         </Routes>
     );
 };
