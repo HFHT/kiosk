@@ -1,47 +1,67 @@
 import { useForm } from '@mantine/form';
-import { NumberInput, TextInput, Button } from '@mantine/core';
-export function ShopifyCustomer() {
+import { NumberInput, TextInput, Button, Flex } from '@mantine/core';
+import { GoogleAddressAutoComplete, predictionType } from '../../Google';
+import { useState } from 'react';
+import { isEmail } from '../../helpers';
+interface ShopifyCustomerInterface {
+    customer: ShopifyCustomerT | undefined
+}
+export function ShopifyCustomer({customer}:ShopifyCustomerInterface) {
+    const [place, setPlace] = useState<predictionType>()
     const form = useForm({
         mode: 'uncontrolled',
-        initialValues: { name: '', email: '', age: 0 },
-
-        // functions will be used to validate values at corresponding key
+        initialValues: { firstName: '', lastName: '', email: '', zip: '', address: '' },
         validate: {
-            name: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
-            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            age: (value) => (value < 18 ? 'You must be at least 18 to register' : null),
+            firstName: (value) => (value.length < 2 ? 'Name must have at least 2 letters' : null),
+            email: (value) => (isEmail(value) ? null : 'Invalid email'),
+            zip: (value) => (value.length != 5 ? 'Zip must have 5 characters' : null),
         },
     })
 
     return (
         <>
-            <TextInput
-                label="Name"
-                placeholder="Name"
-                withAsterisk
-                key={form.key('name')}
-                {...form.getInputProps('name')}
-            />
-            <TextInput
-                mt="sm"
-                label="Email"
-                placeholder="Email"
-                withAsterisk
-                key={form.key('email')}
-                {...form.getInputProps('email')}
-            />
-            <NumberInput
-                mt="sm"
-                label="Age"
-                placeholder="Age"
-                min={0}
-                max={99}
-                key={form.key('age')}
-                {...form.getInputProps('age')}
-            />
-            <Button type="submit" mt="lg" size='lg'>
-                Done
-            </Button>
+            <form onSubmit={form.onSubmit((values) => console.log(values))}>
+                <TextInput
+                    label="First Name"
+                    placeholder="First Name..."
+                    size='lg'
+                    withAsterisk
+                    key={form.key('firstName')}
+                    {...form.getInputProps('firstName')}
+                />
+                <TextInput
+                    label="Last Name"
+                    placeholder="Last Name..."
+                    size='lg'
+                    withAsterisk
+                    key={form.key('lastName')}
+                    {...form.getInputProps('lastName')}
+                />
+                <TextInput
+                    mt="sm"
+                    label="Zipcode"
+                    size='lg'
+                    placeholder="#####"
+                    withAsterisk
+                    key={form.key('zip')}
+                    {...form.getInputProps('zip')}
+                />
+                <TextInput
+                    mt="sm"
+                    label="Email"
+                    size='lg'
+                    placeholder="Email"
+                    key={form.key('email')}
+                    {...form.getInputProps('email')}
+                />
+                <GoogleAddressAutoComplete setPlace={(p: any) => setPlace(p)} />
+
+                <Button type="submit" mt="lg" size='lg'>
+                    Done
+                </Button>
+                <p>Progressive, only open this when a phone is entered.</p>
+                <p>Name, zip are required. Ideally email and signup for newsletter. </p>
+            </form>
         </>
     )
 }

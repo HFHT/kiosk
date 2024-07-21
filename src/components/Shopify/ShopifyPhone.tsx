@@ -1,5 +1,5 @@
 import { notifications } from "@mantine/notifications";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneInput from "react-phone-input-2";
 import { usePhoneLookup } from "../../hooks";
 import { IconPointerOff } from "@tabler/icons-react";
@@ -18,6 +18,11 @@ export function ShopifyPhone({ onChange }: ShopifyPhoneInterface) {
         }
         setPhone(p)
     }
+    useEffect(() => {
+        console.log(customer)
+        if (customer !== undefined) { onChange(customer) }
+    }, [customer])
+
     return (
         <>
             <LoadingOverlay visible={isLookupLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />

@@ -310,3 +310,10 @@ button:focus-visible,
 .special-label {
   display: none;
 }
+/* .mantine-TextInput-root, .mantine-NumberInput-root {
+  display: flex;
+  align-items: baseline;
+} */
+.mantine-TextInput-label, .mantine-NumberInput-label {
+  display: flex!important;
+}

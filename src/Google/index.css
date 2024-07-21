@@ -1,0 +1,68 @@
+/* .google-form input {
+    width: 100%;
+} */
+
+/* .google-form {
+    display: grid;
+    justify-content: start;
+} */
+
+.pac-container {
+    background-color: #fff;
+    /* position: absolute!important; */
+    z-index: 1500;
+    border-radius: 2px;
+    border-top: 1px solid #d9d9d9;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.pac-item {
+    cursor: default;
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 30px;
+    text-align: left;
+    border-top: 1px solid #e6e6e6;
+    font-size: 11px;
+    color: #515151;
+}
+
+.pac-icon {
+    width: 15px;
+    height: 20px;
+    margin-right: 7px;
+    margin-left: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: url('https://maps.gstatic.com/mapfiles/api-3/images/autocomplete-icons.png');
+    background-size: 34px;
+}
+
+.pac-icon-marker {
+    background-position: -1px -161px;
+}
+
+.pac-item-query {
+    font-size: 13px;
+    padding-right: 3px;
+    color: #000;
+}
+
+.pac-matched {
+    font-weight: 700;
+}
+
+.pac-power-by-google {
+    font-size: x-small;
+    text-align: right;
+}
+
+.pac-logo-google {
+    width: 40px;
+    height: auto;
+}
