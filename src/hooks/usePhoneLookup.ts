@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { fetchJson } from "../helpers/fetch";
+import { stringOrBlank } from "../helpers";
 
 export function usePhoneLookup() {
     const [theResult, setTheResult] = useState<ShopifyCustomerT | null | undefined>(undefined)
@@ -9,7 +10,12 @@ export function usePhoneLookup() {
         setIsLoading(true)
         const response: ShopifyResponseT = await shopifyCustSearch(phone)
         console.log(response, response.theProduct.data)
-        setTheResult((response.theProduct.data.customers.length > 0) ? response.theProduct.data.customers[0] : null)
+        let result:ShopifyCustomerT | null = null
+        if (response.theProduct.data.customers.length > 0) {
+            result = response.theProduct.data.customers[0]
+            result = {...result, formatted_address: `${stringOrBlank(result.default_address?.address1)} ${stringOrBlank(result.default_address?.address2)} ${stringOrBlank(result.default_address?.city)} ${stringOrBlank(result?.default_address?.province_code)}`}
+        }
+        setTheResult(result)
         setIsLoading(false)
         return response
     }

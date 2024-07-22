@@ -6,9 +6,10 @@ import { IconPointerOff } from "@tabler/icons-react";
 import { Box, Flex, LoadingOverlay, Title } from "@mantine/core";
 interface ShopifyPhoneInterface {
     onChange: Function
+    phone: string | null
+    setPhone: Function
 }
-export function ShopifyPhone({ onChange }: ShopifyPhoneInterface) {
-    const [phone, setPhone] = useState('')
+export function ShopifyPhone({ phone, setPhone, onChange }: ShopifyPhoneInterface) {
     const [pin, setPin] = useState('')
     const [customer, doPhoneLookup, isLookupLoading] = usePhoneLookup()
     function handlePhone(p: string) {

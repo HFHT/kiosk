@@ -26,6 +26,7 @@ type ShopifyCustomerT = {
     tags: string  | null
     total_spent: string
     verified_email: boolean
+    formatted_address?: string | undefined
 }
 type ShopifyAddressT = {
     id: number
