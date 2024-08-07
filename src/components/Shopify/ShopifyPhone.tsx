@@ -1,8 +1,6 @@
-import { notifications } from "@mantine/notifications";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
-import { usePhoneLookup } from "../../hooks";
-import { IconPointerOff } from "@tabler/icons-react";
+import { useShopifyPhoneLookup } from "../../hooks";
 import { Box, Flex, LoadingOverlay, Title } from "@mantine/core";
 interface ShopifyPhoneInterface {
     onChange: Function
@@ -10,8 +8,7 @@ interface ShopifyPhoneInterface {
     setPhone: Function
 }
 export function ShopifyPhone({ phone, setPhone, onChange }: ShopifyPhoneInterface) {
-    const [pin, setPin] = useState('')
-    const [customer, doPhoneLookup, isLookupLoading] = usePhoneLookup()
+    const [customer, doPhoneLookup, isLookupLoading] = useShopifyPhoneLookup()
     function handlePhone(p: string) {
         if (p.length === 11) {
             console.log('got phone', p)
@@ -23,7 +20,7 @@ export function ShopifyPhone({ phone, setPhone, onChange }: ShopifyPhoneInterfac
         console.log(customer)
         if (customer !== undefined) { onChange(customer) }
     }, [customer])
-
+    console.log(phone)
     return (
         <>
             <LoadingOverlay visible={isLookupLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />

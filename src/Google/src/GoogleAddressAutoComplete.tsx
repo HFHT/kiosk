@@ -23,11 +23,11 @@ export function GoogleAddressAutoComplete({ setPlace, address = undefined }: Goo
   const showPredictions = () => {
     return (predictions && predictions.length > 0 && (predictions[0]?.description !== searchValue))
   }
-  // console.log(searchValue, predictions)
 
   useEffect(() => {
     address && setSearchValue(address)
   }, [address])
+  
   useEffect(() => {
     addr && setPlace(place)
   }, [addr, place])

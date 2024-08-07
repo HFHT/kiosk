@@ -6,6 +6,7 @@ export function usePlacesAutocomplete(text = '', selected = '', debounceTimeout 
   const [googlePlace, setGooglePlace] = useState({})
 
   useEffect(() => {
+    console.log('usePlacesAutocomplete', text)
     const handleDebounce = setTimeout(async () => {
       try {
         if (!text) {
@@ -13,6 +14,8 @@ export function usePlacesAutocomplete(text = '', selected = '', debounceTimeout 
           return
         }
         const nextPredictions = await googleAutocomplete(text)
+        console.log(nextPredictions)
+
         //@ts-ignore
         setPredictions(nextPredictions)
       } catch (e) {

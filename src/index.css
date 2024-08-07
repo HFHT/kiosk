@@ -320,7 +320,7 @@ button:focus-visible,
   display: flex;
   align-items: baseline;
 } */
-.mantine-TextInput-label, .mantine-NumberInput-label, .mantine-Textarea-label, .mantine-Textarea-description {
+.mantine-TextInput-label, .mantine-NumberInput-label, .mantine-Textarea-label, .mantine-Textarea-description, .mantine-Autocomplete-label {
   display: flex!important;
 }
 .mantine-Checkbox-root {

@@ -7,7 +7,7 @@ import { AppShell, Box, Flex, LoadingOverlay, Text } from '@mantine/core';
 import RouterSwitcher from './RouterSwitcher';
 import { useBeforeUnload } from 'react-router-dom';
 import { useState } from 'react';
-import { useOnline, useParams } from './hooks';
+import { useOnline } from './hooks';
 import { Header, Navbar } from './components';
 
 export function App({ collections }: any) {
@@ -17,7 +17,6 @@ export function App({ collections }: any) {
     online: [() => { notifications.show({ color: 'green', title: '🛜 Network Restored', message: 'You are back online! ' }) }],
     offline: [() => { notifications.show({ color: 'red', title: '❗ Network Error', message: 'Connection to the network has been lost! ' }) }]
   });
-  const params = useParams(['nosave', 'noprint'])
   const [opened, setOpened] = useState(false)
 
   return (

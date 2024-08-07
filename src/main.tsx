@@ -7,7 +7,6 @@ import { App } from './App';
 import(`//maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_APIKEY}&language=en&libraries=places&v=weekly`)
 
 const theme = createTheme({
-  /** Put your mantine theme override here */
   fontFamily: 'Montserrat, sans-serif',
   defaultRadius: 'md',
   headings: {
@@ -38,7 +37,7 @@ async function getCollections() {
 }
 (async () => {
   try {
-    const results = await getCollections().then(data => data)
+    // const results = await getCollections().then(data => data)
 
     ReactDOM.createRoot(document.getElementById('root')!).render(
       <MantineProvider theme={theme}>

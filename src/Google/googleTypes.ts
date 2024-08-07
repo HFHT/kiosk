@@ -4,7 +4,7 @@ export type predictionType = null | {
     reference: string
     types: string[]
     terms: any
-    structure_formatting: {
+    structured_formatting: {
       main_text: string
       secondary_text: string
       main_text_matched_substrings: any[]
