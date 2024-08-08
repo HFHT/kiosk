@@ -1,5 +1,3 @@
-export * from './shopifyCustSearch'
-
 export type ShopifyCustomerT = {
     id: number
     addresses: ShopifyAddressT[] | []
@@ -18,6 +16,7 @@ export type ShopifyCustomerT = {
     total_spent: string
     verified_email: boolean
     formatted_address?: string | undefined
+    shopifyId?: number | null
 }
 export type ShopifyAddressT = {
     id: number
@@ -26,6 +25,7 @@ export type ShopifyAddressT = {
     city: string | null
     company: string | null
     country: string | null
+    country_code: string | null
     customer_id: number
     first_name: string | null
     last_name: string | null

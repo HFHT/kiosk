@@ -1,33 +1,22 @@
-// Importing necessary hooks from the 'react' library
 import { useEffect, useState } from 'react';
 
-// Variable to store the online status
-let online;
+interface useOnlineInterface {
+    offline: [() => void]
+    online: [() => void]
+}
 
-// Custom hook to track online/offline status and execute corresponding functions
-export const useOnline = (funcObj: any) => {
-    // Checking if the navigator indicates the user is online
-    if (navigator.onLine) {
-        online = true;
-    }
-    else {
-        online = false;
-    }
-
-    // Creating a state variable to manage online status
-    const [isOnline, setIsOnline] = useState(online);
+export const useOnline = (funcObj: useOnlineInterface) => {
+    const [isOnline, setIsOnline] = useState(navigator.onLine);
 
     useEffect(() => {
-        // Function to be called when offline event occurs
+        // Functions to be called when offline or online event occurs
         const offlineEventListenerFunction = () => {
-            setIsOnline(false); // Set online status to false
-            funcObj?.offline?.map((e: any) => e()); // Execute offline callback functions if provided
+            setIsOnline(false);
+            funcObj?.offline?.map((e: any) => e()); // Callback(s)
         };
-
-        // Function to be called when online event occurs
         const onlineEventListenerFunction = () => {
-            setIsOnline(true); // Set online status to true
-            funcObj?.online?.map((e: any) => e()); // Execute online callback functions if provided
+            setIsOnline(true);
+            funcObj?.online?.map((e: any) => e()); // Callback(s)
         };
 
         // Adding event listeners for online and offline events
@@ -39,7 +28,7 @@ export const useOnline = (funcObj: any) => {
             removeEventListener('offline', offlineEventListenerFunction);
             removeEventListener('online', onlineEventListenerFunction);
         };
-    }, []); // Empty dependency array ensures this effect runs only once
+    }, []); 
 
-    return isOnline; // Returning the current online status
+    return isOnline; 
 };

@@ -1,15 +1,15 @@
 export type predictionType = null | {
     description: string         // full predicted address for top choice
-    place_id: string
-    reference: string
-    types: string[]
-    terms: any
-    structured_formatting: {
+    place_id?: string
+    reference?: string
+    types?: string[]
+    terms?: any
+    structured_formatting?: {
       main_text: string
       secondary_text: string
       main_text_matched_substrings: any[]
     }
-    matched_substrings: any[]
+    matched_substrings?: any[]
   }
   export type placesType = null | {
     results: placesResultType[]

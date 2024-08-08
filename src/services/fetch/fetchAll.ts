@@ -4,6 +4,5 @@ export async function fetchAll(collection: { url: string, init: { method: string
   const allData = await Promise.all(
     collection.map(({ url, init }: any) => fetchJson(url, init))
   );
-  // console.log(allData)
   return allData
 };

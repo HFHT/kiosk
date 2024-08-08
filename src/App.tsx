@@ -3,7 +3,7 @@ import '@mantine/carousel/styles.css';
 import '@mantine/notifications/styles.css';
 import { Notifications, notifications } from '@mantine/notifications';
 import './App.css';
-import { AppShell, Box, Flex, LoadingOverlay, Text } from '@mantine/core';
+import { AppShell, Box, Flex, Loader, LoadingOverlay, Text } from '@mantine/core';
 import RouterSwitcher from './RouterSwitcher';
 import { useBeforeUnload } from 'react-router-dom';
 import { useState } from 'react';
@@ -19,6 +19,15 @@ export function App({ collections }: any) {
   });
   const [opened, setOpened] = useState(false)
 
+  const Offline = () => (
+    <>
+      <Flex gap="md" justify="center" align="center" direction="row" wrap="wrap">
+        <Loader color="blue" size='xl' type="dots" />
+        <Text size='xl'>Network Offline</Text>
+      </Flex>
+    </>
+  )
+
   return (
     <div className="App" >
       <AppShell
@@ -27,11 +36,11 @@ export function App({ collections }: any) {
         padding="sm"
       >
         <Header opened={opened} setOpened={(e: any) => setOpened(e)} />
-        <Navbar close={() => setOpened(false)}/>
+        <Navbar close={() => setOpened(false)} />
         <AppShell.Main>
           <Notifications position="top-right" />
           <Box pos='relative'>
-            <LoadingOverlay visible={!isOnline} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} loaderProps={{ size: 'xl', color: 'pink', type: 'bars' }} />
+            <LoadingOverlay visible={!isOnline} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} loaderProps={{ children: <Offline /> }} />
             <RouterSwitcher collections={collections} />
           </Box>
         </AppShell.Main>

@@ -10,17 +10,12 @@ interface ShopifyPhoneInterface {
 export function ShopifyPhone({ phone, setPhone, onChange }: ShopifyPhoneInterface) {
     const [customer, doPhoneLookup, isLookupLoading] = useShopifyPhoneLookup()
     function handlePhone(p: string) {
-        if (p.length === 11) {
-            console.log('got phone', p)
-            doPhoneLookup(p)
-        }
+        if (p.length === 11) { doPhoneLookup(p) }
         setPhone(p)
     }
     useEffect(() => {
-        console.log(customer)
         if (customer !== undefined) { onChange(customer) }
     }, [customer])
-    console.log(phone)
     return (
         <>
             <LoadingOverlay visible={isLookupLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
@@ -28,10 +23,7 @@ export function ShopifyPhone({ phone, setPhone, onChange }: ShopifyPhoneInterfac
                 <Flex gap='lg' justify={'center'} align={'flex-end'}>
                     <Title order={2}>Phone</Title>
                     <div className='pickphone'>
-                        <PhoneInput
-                            country={'us'}
-                            value={phone}
-                            inputClass='pickphoneinput'
+                        <PhoneInput country={'us'} value={phone} inputClass='pickphoneinput'
                             onChange={(p: any) => handlePhone(p)}
                         />
                     </div>

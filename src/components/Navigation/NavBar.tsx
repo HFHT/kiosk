@@ -11,16 +11,6 @@ export function Navbar({ close }: any) {
         onClick={() => { close(); navigate('/'); }}
         style={{ margin: '5px' }}
       />
-      {/* <NavLink
-        label="History"
-        onClick={() => { close(); navigate('/history')}}
-        style={{ margin: '5px' }}
-      />
-      <NavLink
-        label="Settings"
-        onClick={() => { close(); navigate('/settings')}}
-        style={{ margin: '5px' }}
-      /> */}
     </AppShell.Navbar>
   );
 };

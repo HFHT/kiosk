@@ -1,6 +1,0 @@
-export * from './src/GoogleAddressAutoComplete'
-export * from './helpers/googleAutocomplete'
-export * from './helpers/googleGeocode'
-export * from './hooks/usePlacesAutocomplete'
-export * from './hooks/useGoogleGeocode'
-export * from './googleTypes'
