@@ -9,7 +9,7 @@ type OpenAiResponseType = {
     }
     created: number
     id: string
-    model: 'gpt-3.5-turbo-instruct'
+    model: string
     object: 'text-completion'
 }
 export type OpenAiChoicesType = {
@@ -34,7 +34,7 @@ export const getChatGPT = async (userData: string) => {
         })
     };
     try {
-        const response: OpenAiResponseType = await fetchJson(`${import.meta.env.VITE_AZURE_FUNC_URL}/api/HFHTChatGPT`, options)
+        const response: OpenAiResponseType = await fetchJson(`https://hfht-kiosk-api.azurewebsites.net/api/getOpenAI`, options)
         console.log('ChatGPT-fetchJson', response)
         if (response.choices.length === 0) return []
 
