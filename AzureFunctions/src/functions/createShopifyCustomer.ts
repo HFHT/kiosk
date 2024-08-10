@@ -6,9 +6,9 @@ async function createShopifyCustomer(request: HttpRequest, context: InvocationCo
         return {
             status: 200,
             body: JSON.stringify(
-                await fetch (
+                await fetch(
                     process.env.SHOPIFY_CUSTOMER_CREATE!,
-                    { 
+                    {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -17,6 +17,11 @@ async function createShopifyCustomer(request: HttpRequest, context: InvocationCo
                         body: JSON.stringify({ customer: req.data })
                     }
                 )
+                    .then(res => {
+                        context.log('fetchResult', res)
+                        if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`)
+                        return res.json()
+                    })
             )
         }
     } catch (error) {
