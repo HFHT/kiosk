@@ -8,7 +8,7 @@ export type ShopifyCustomerT = {
     first_name: string | null
     last_name: string | null
     last_order_id: number | null
-    notes: string
+    note: string
     orders_count: number
     phone: string
     state: any

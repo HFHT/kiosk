@@ -9,11 +9,12 @@ export function useShopifyPhoneLookup() {
 
     const doPhoneLookup = async (phone: string) => {
         setIsLoading(true)
-        const response: ShopifyResponseT = await shopifyCustSearch(phone)
-        if (response && response.theProduct.data.customers.length > 0) {
-            let result: ShopifyCustomerT = response.theProduct.data.customers[0]
-            result = { ...result, formatted_address: (result?.default_address?.address1 === null || result!.default_address!.address1 === '') ? '' : `${stringOrBlank(result.default_address?.address1)}${result.default_address?.address2 ? `, ${result.default_address?.address2}` : ''}, ${stringOrBlank(result.default_address?.city)}, ${stringOrBlank(result?.default_address?.province_code)}, ${result?.default_address?.country_code === 'US' ? 'USA' : result?.default_address?.country_code}` }
-            setTheResult(result)
+        const customers: ShopifyCustomerT[] = await shopifyCustSearch(phone)
+        console.log(customers)
+        if (customers && customers.length > 0) {
+            let result: ShopifyCustomerT = customers[0]
+            // result = { ...result, formatted_address: (result?.default_address?.address1 === null || result!.default_address!.address1 === '') ? '' : `${stringOrBlank(result.default_address?.address1)}${result.default_address?.address2 ? `, ${result.default_address?.address2}` : ''}, ${stringOrBlank(result.default_address?.city)}, ${stringOrBlank(result?.default_address?.province_code)}, ${result?.default_address?.country_code === 'US' ? 'USA' : result?.default_address?.country_code}` }
+            setTheResult({ ...result, formatted_address: (result?.default_address?.address1 === null || result!.default_address!.address1 === '') ? '' : `${stringOrBlank(result.default_address?.address1)}${result.default_address?.address2 ? `, ${result.default_address?.address2}` : ''}, ${stringOrBlank(result.default_address?.city)}, ${stringOrBlank(result?.default_address?.province_code)}, ${result?.default_address?.country_code === 'US' ? 'USA' : result?.default_address?.country_code}` })
         } else {
             console.log('doPhoneLookup-customer not found', theResult)
             setTheResult({ phone: phone, formatted_address: '' })

@@ -1,18 +1,6 @@
-import { app, output } from '@azure/functions';
-import { getShopifyCustomer } from './functions/getShopifyCustomer';
-import { updateShopifyCustomer } from './functions/updateShopifyCustomer';
-import { createMongoItem } from './functions/createMongoItem';
+import { app } from '@azure/functions';
 
 app.setup({
     enableHttpStream: true,
 });
 
-app.http('getShopifyCustomer', {
-    methods: ['GET', 'POST'], authLevel: 'anonymous', handler: getShopifyCustomer
-});
-app.http('updateShopifyCustomer', {
-    methods: ['GET', 'POST'], authLevel: 'anonymous', handler: updateShopifyCustomer
-});
-app.http('createMongoItem', {
-    methods: ['GET', 'POST'], authLevel: 'anonymous', handler: createMongoItem
-});

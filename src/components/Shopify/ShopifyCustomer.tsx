@@ -18,6 +18,8 @@ export type KioskFormType = {
     phone: string
     firstName: string
     lastName: string
+    tags: string
+    note: string
     company: string
     donations: string
     email: string
@@ -68,7 +70,9 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
         newsletter: false,
         emailReceipt: false,
         phone: phone,
-        place: {}
+        place: {},
+        tags: stringOrBlank(customer?.tags),
+        note: stringOrBlank(customer?.note)
     }), [customer])
 
     const form = useForm({

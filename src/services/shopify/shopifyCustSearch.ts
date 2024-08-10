@@ -7,15 +7,14 @@ export async function shopifyCustSearch(phone: string) {
         method: "POST",
         headers: new Headers(),
         body: JSON.stringify({
-            method: 'searchCust',
-            product: `phone=${phone}`
+            search: `phone=${phone}`
         })
     }
     try {
-        const response = await fetchJson(`${import.meta.env.VITE_AZURE_FUNC_URL}/api/HFHTShopify`, options)
-        console.log('shopifyCustSearch-fetchJson', response)
-        return response ? response : {}
+        const response = await fetchJson(import.meta.env.VITE_SHOPIFY_SEARCH_URL, options)
+        console.log('shopifyCustSearch-fetchJson', response, response.customers)
+        return response ? response.customers : {}
     }
-    catch (error) { console.log(error); alert('Empty Barcode DB failed: ' + error); }
+    catch (error) { console.log(error); alert('shopifyCustSearch-error: ' + error); }
 
 }

@@ -34,7 +34,7 @@ export const getChatGPT = async (userData: string) => {
         })
     };
     try {
-        const response: OpenAiResponseType = await fetchJson(`https://hfht-kiosk-api.azurewebsites.net/api/getOpenAI`, options)
+        const response: OpenAiResponseType = await fetchJson(import.meta.env.VITE_OPENAI_URL, options)
         console.log('ChatGPT-fetchJson', response)
         if (response.choices.length === 0) return []
 
