@@ -37,12 +37,12 @@ The local settings that must be configured as part of the build include:
 
 * ATLAS_URI - The Mongo DB Atlas Uri
 * SHOPIFY_ACCESS_TOKEN - The Shopify access token
-* SHOPIFY_CUSTOMER_CREATE - Shopify Admin REST API 'https://{yourStore}.myshopify.com/admin/api/2024-01/customers.json'
-* SHOPIFY_CUSTOMER_UPDATE - Shopify Admin REST API 'https://{yourStore}.myshopify.com/admin/api/2024-01/customers/{customer_id}.json'
+* SHOPIFY_CUSTOMER_CREATE - Shopify Admin REST API `https://{yourStore}.myshopify.com/admin/api/2024-01/customers.json`
+* SHOPIFY_CUSTOMER_UPDATE - Shopify Admin REST API `https://{yourStore}.myshopify.com/admin/api/2024-01/customers/{customer_id}.json`
 * OPENAI_API_KEY - OpenAI api key
 * AzureCommunicationsKey - Azure communications service key
-* AzureCommunications - Azure communications service endpoint 'endpoint=https://.....'
-* AzureEmailSender - Your sender email such as 'DoNotReply@mydomain.com', make sure to configure this email in your communications server.
+* AzureCommunications - Azure communications service endpoint `endpoint=https://.....`
+* AzureEmailSender - Your sender email such as `DoNotReply@mydomain.com`, make sure to configure this email in your communications server.
 * AzureEmailBcc - Same as AzureEmailSender
 
 ## Companion GitHub repositories
