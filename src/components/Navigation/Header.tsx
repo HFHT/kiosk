@@ -17,7 +17,7 @@ export function Header({ setOpened, opened }: any) {
     <AppShell.Header>
       <Flex justify="space-between" align="center" style={{ padding: '10px 20px' }}>
         <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom="sm" size="sm" />
-        <div><Logo /></div>
+        <div><Logo colorScheme={(computedColorScheme === 'dark') ? '#ffffff' : '#000000'} /></div>
         <Title order={1}>Customer Kiosk</Title>
         <Button size={mobile ? "xs" : "sm"} variant="link" onClick={toggleColorScheme}>
           {computedColorScheme === 'dark' ? <IconSunFilled /> : <IconMoonFilled />}

@@ -17,27 +17,33 @@ export function useSaveForm(noSave = false, callBack: () => void) {
         // 2) Get address details from google
         const geocode = await googleGeocode(values.place?.description)
         console.log('geocode', geocode)
+        const customer = {
+            first_name: values.firstName, last_name: values.lastName, email: values.email,
+            phone: values.phone, send_email_welcome: false,
+            note: `${values.note} {${dateFormat(null)}-${values.donations}},`,
+            tags: values.tags.indexOf('kiosk') >= 0 ? values.tags : (values.tags.split(',').concat(['kiosk'])).join(),
+            addresses: [{
+                address1: `${getAddressComponent(geocode, 'street_number')} ${getAddressComponent(geocode, 'route')}`,
+                address2: values.address2,
+                city: getAddressComponent(geocode, 'locality'),
+                province: getAddressComponent(geocode, 'administrative_area_level_1'),
+                country: getAddressComponent(geocode, 'country'),
+                phone: values.phone, zip: values.zip,
+                first_name: values.firstName,
+                last_name: values.lastName,
+                company: values.company
+            }]
+        }
         // 3) Save to MongoDB and Shopify
-        const mongoSave = await createMongoItem({ data: { ...values, list: itemList }, db: 'Kiosk', collection: 'Donations', noSave: noSave })
+        const mongoSave = await createMongoItem({
+            data: {
+                ...customer, _id: values._id, shopifyId: values.shopifyId, date: values.date, email: values.email,
+                newsletter: values.newsletter, emailReceipt: values.emailReceipt, list: itemList
+            }, db: 'Kiosk', collection: 'Donations', noSave: noSave
+        })
         const shopifySave = await saveShopifyCustomer({
             id: values.shopifyId,
-            customer: {
-                first_name: values.firstName, last_name: values.lastName, email: values.email,
-                phone: values.phone, send_email_welcome: false,
-                note: `${values.note} {${dateFormat(null)}-${values.donations}},`,
-                tags: values.tags.indexOf('kiosk') >= 0 ? values.tags : (values.tags.split(',').concat(['kiosk'])).join(),
-                addresses: [{
-                    address1: `${getAddressComponent(geocode, 'street_number')} ${getAddressComponent(geocode, 'route')}`,
-                    address2: values.address2,
-                    city: getAddressComponent(geocode, 'locality'),
-                    province: getAddressComponent(geocode, 'administrative_area_level_1'),
-                    country: getAddressComponent(geocode, 'country'),
-                    phone: values.phone, zip: values.zip,
-                    first_name: values.firstName,
-                    last_name: values.lastName,
-                    company: values.company
-                }]
-            }
+            customer: { ...customer }
         })
         console.log('mongo/shopify', mongoSave, shopifySave)
         // Cleanup

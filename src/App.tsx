@@ -1,10 +1,8 @@
-import '@mantine/core/styles.css';
 import '@mantine/carousel/styles.css';
 import '@mantine/notifications/styles.css';
 import { Notifications, notifications } from '@mantine/notifications';
-import './App.css';
 import { AppShell, Box, Flex, Loader, LoadingOverlay, Text } from '@mantine/core';
-import RouterSwitcher from './RouterSwitcher';
+import { RouterSwitcher } from './routes/RouterSwitcher';
 import { useBeforeUnload } from 'react-router-dom';
 import { useState } from 'react';
 import { useOnline } from './hooks';

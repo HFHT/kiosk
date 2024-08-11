@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
-import { Kiosk, NotFound } from './pages';
+import { Kiosk, NotFound } from '../pages';
 
-const RouteSwitcher = ({ props }: any) => {
+export const RouterSwitcher = ({ props }: any) => {
     return (
         <Routes>
             <Route path="*" element={<NotFound />} />
@@ -9,5 +9,3 @@ const RouteSwitcher = ({ props }: any) => {
         </Routes>
     );
 };
-
-export default RouteSwitcher;
