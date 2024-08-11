@@ -4,8 +4,6 @@
 
 The HabiStore Kiosk enables self-service donations. The donor can record information about their donation and email themsleves a receipt.  
 
-This repository acts as a directory for folks looking for the various resources we have for Azure Functions.
-
 ## Azure Web App
 
 The React App is designed to operate as an [Azure Web App](https://azure.microsoft.com/en-us/products/app-service/web).
