@@ -1,4 +1,5 @@
 import { fetchJson } from "."
+import { isEmail } from "../utils"
 
 export type eMailReqType = {
     to: string
@@ -16,9 +17,7 @@ export async function sendEmail(eMailReq: eMailReqType) {
     const header: any = { method: "POST", headers: new Headers() }
     header.body = JSON.stringify({ ...eMailReq })
     if (eMailReq.noSend) { console.log('sendEmail', header); return null }
-    try {
-        return await fetchJson(import.meta.env.VITE_SENDMAIL_URL, header)
-    } catch (err) {
-        console.log('sendEmail-error', err)
-    }
+    if (eMailReq.to === '' || !isEmail(eMailReq.to)) { console.log('sendEmail-bad address', eMailReq.to) }
+    return await fetchJson(import.meta.env.VITE_SENDMAIL_URL, header)
+
 }

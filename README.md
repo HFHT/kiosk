@@ -1,5 +1,3 @@
-# kiosk
-
 # Tucson HabiStore Kiosk
 
 The HabiStore Kiosk enables self-service donations. The donor can record information about their donation and email themsleves a receipt.  
@@ -12,6 +10,7 @@ The React App is designed to operate as an [Azure Web App](https://azure.microso
 
 The local settings that must be configured as part of the build include:
 
+* VITE_GOOGLE_APIKEY - Google map API key
 * VITE_MONGO_URL - The url of the createMongoItem function app
 * VITE_SHOPIFY_SEARCH_URL - The url of the getShopifyCustomer function app
 * VITE_SHOPIFY_CREATE_URL - The url of the createShopifyCustomer function app
@@ -56,3 +55,6 @@ The local settings that must be configured as part of the build include:
  - [HabiStore Item Wizard](https://github.com/HFHT/HabiStoreWizard/) - Create Shopify product by answering a series of questions. 
 
 ### Documentation
+
+### Todo
+* Refine error boundaries

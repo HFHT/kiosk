@@ -7,8 +7,11 @@ import ReactDOM from 'react-dom/client'
 import { createTheme, MantineProvider } from '@mantine/core';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
+import { StrictMode } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { TopLevelError } from './components';
 import(`//maps.googleapis.com/maps/api/js?key=${import.meta.env.VITE_GOOGLE_APIKEY}&language=en&libraries=places&v=weekly`)
-
+ 
 const theme = createTheme({
   fontFamily: 'Montserrat, sans-serif',
   defaultRadius: 'md',
@@ -21,11 +24,15 @@ const theme = createTheme({
 (async () => {
   try {
     ReactDOM.createRoot(document.getElementById('root')!).render(
-      <MantineProvider theme={theme}>
-        <BrowserRouter>
-          <App props={null} />
-        </BrowserRouter>
-      </MantineProvider>
+      <StrictMode >
+        <ErrorBoundary FallbackComponent={TopLevelError} onError={() => console.log('Top Level Error Boundary')}>
+          <MantineProvider theme={theme}>
+            <BrowserRouter>
+              <App props={null} />
+            </BrowserRouter>
+          </MantineProvider>
+        </ErrorBoundary>
+      </StrictMode>
     )
   }
   catch (e) {

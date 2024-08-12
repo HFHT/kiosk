@@ -37,12 +37,10 @@ export const getChatGPT = async (userData: string) => {
         const response: OpenAiResponseType = await fetchJson(import.meta.env.VITE_OPENAI_URL, options)
         console.log('ChatGPT-fetchJson', response)
         if (response.choices.length === 0) return []
-
         return JSON.parse(response.choices[0].text)
     }
     catch (error) {
         console.log(error);
-        alert('ChatGPT could not analyze the donation.' + error);
         return []
     }
 }

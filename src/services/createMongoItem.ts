@@ -11,9 +11,5 @@ export async function createMongoItem({ db, collection, data, noSave = false }: 
     const header: any = { method: "POST", headers: new Headers() }
     header.body = JSON.stringify({ db: db, collection: collection, data: { ...data } })
     if (noSave) { console.log(header); return null }
-    try {
-        return await fetchJson(import.meta.env.VITE_MONGO_URL, header)
-    } catch (err) {
-        console.log('saveMongo-error', err)
-    }
+    return await fetchJson(import.meta.env.VITE_MONGO_URL, header)
 }

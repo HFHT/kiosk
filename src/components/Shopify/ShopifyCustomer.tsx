@@ -5,7 +5,6 @@ import { dateFormat, isEmail, numberOrNull, uniqueKey, isZip, stringOrBlank } fr
 import { useParams, usePlacesAutocomplete, useSaveForm } from '../../hooks';
 import { predictionType, ShopifyCustomerT, } from '../../types';
 
-
 interface ShopifyCustomerInterface {
     phone: string
     customer: ShopifyCustomerT | undefined
@@ -34,6 +33,8 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
     const [place, setPlace] = useState<predictionType | undefined>(customer && customer.formatted_address ? { description: customer.formatted_address } : undefined) //set either from Shopify customer or from the form's autocomplete
     const [searchValue, setSearchValue] = useState<string>(stringOrBlank(customer?.formatted_address))
     const [addrError, setAddrError] = useState<string>('')
+    const [receiptValue, setReceiptValue] = useState(true)
+    const [receiptError, setReceiptError] = useState<string>('')
     const [predictions] = usePlacesAutocomplete(searchValue)
     const [autocompleteData, setAutocompleteData] = useState<string[]>([])
     const params = useParams(['nosave', 'noprint'])
@@ -68,7 +69,7 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
         address: stringOrBlank(customer?.default_address?.address1),
         address2: stringOrBlank(customer?.default_address?.address2),
         newsletter: false,
-        emailReceipt: false,
+        emailReceipt: true,
         phone: phone,
         place: {},
         tags: stringOrBlank(customer?.tags),
@@ -84,20 +85,24 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
             donations: (value) => (value.length < 5 ? 'Donation must have at least 5 characters' : null),
             email: (value) => ((value === '' || isEmail(value)) ? null : 'Invalid email'),
             newsletter: (value, values) => ((value && !isEmail(values.email)) ? 'Email required' : null),
-            emailReceipt: (value, values) => ((value && !isEmail(values.email)) ? 'Email required' : null),
             zip: (value) => (isZip(value) ? 'Zip must have 5 characters' : null),
         },
     })
 
     const handleSave = () => {
-        console.log('handleSave', form.getValues(), form.values, form.values.address, form.values.place)
+        console.log('handleSave', receiptValue, form.getValues(), form.values, form.values.address, form.values.place)
         if (searchValue !== '' && place === undefined) {
             setAddrError('Invalid address, please select one.')
             return
         }
+        if (form.getValues().email === '' && receiptValue) {
+            setReceiptError('Email required.')
+        } else {
+            setReceiptError('')
+        }
         form.validate()
         if (!form.isValid()) return
-        saveForm({ ...form.getValues(), place: place! },)
+        saveForm({ ...form.getValues(), place: place!, emailReceipt: receiptValue },)
     }
 
     return (
@@ -153,8 +158,9 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
                                 {...form.getInputProps('newsletter')}
                             />
                             <Checkbox label="Email receipt?" size="md"
-                                key={form.key('emailReceipt')}
-                                {...form.getInputProps('emailReceipt')}
+                                error={receiptError}
+                                checked={receiptValue}
+                                onChange={() => setReceiptValue(!receiptValue)}
                             />
                         </Grid.Col>
                     </Grid>

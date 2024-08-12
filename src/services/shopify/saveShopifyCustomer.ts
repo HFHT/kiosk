@@ -8,16 +8,11 @@ export async function saveShopifyCustomer(s: { id: number | null | undefined, cu
         console.log(header)
         return []
     }
-    try {
-        return await fetchJson(
-            s.id ?
-                import.meta.env.VITE_SHOPIFY_UPDATE_URL
-                :
-                import.meta.env.VITE_SHOPIFY_CREATE_URL,
-            header
-        )
-    } catch (err) {
-        console.log('saveShopifyCustomer-error', err)
-        return
-    }
+    return await fetchJson(
+        s.id ?
+            import.meta.env.VITE_SHOPIFY_UPDATE_URL
+            :
+            import.meta.env.VITE_SHOPIFY_CREATE_URL,
+        header
+    )
 }
