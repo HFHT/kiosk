@@ -15,10 +15,10 @@ export function Header({ setOpened, opened }: any) {
 
   return (
     <AppShell.Header>
-      <Flex justify="space-between" align="center" style={{ padding: '10px 20px' }}>
+      <Flex justify="space-between" align="center" gap='md' style={{ padding: '10px 20px' }}>
         <Burger opened={opened} onClick={() => setOpened(!opened)} hiddenFrom="sm" size="sm" />
         <div><Logo colorScheme={(computedColorScheme === 'dark') ? '#ffffff' : '#000000'} /></div>
-        <Title order={1}>Customer Kiosk</Title>
+        <Title order={mobile ? 3 : 1}>Customer Kiosk</Title>
         <Button size={mobile ? "xs" : "sm"} variant="link" onClick={toggleColorScheme}>
           {computedColorScheme === 'dark' ? <IconSunFilled /> : <IconMoonFilled />}
         </Button>

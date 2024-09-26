@@ -7,6 +7,7 @@ import { predictionType, ShopifyCustomerT, } from '../../types';
 
 interface ShopifyCustomerInterface {
     phone: string
+    template: string | undefined
     customer: ShopifyCustomerT | undefined
     reset: Function
 }
@@ -29,7 +30,7 @@ export type KioskFormType = {
     emailReceipt: boolean
     place: predictionType
 }
-export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInterface) {
+export function ShopifyCustomer({ phone, template, customer, reset }: ShopifyCustomerInterface) {
     const [place, setPlace] = useState<predictionType | undefined>(customer && customer.formatted_address ? { description: customer.formatted_address } : undefined) //set either from Shopify customer or from the form's autocomplete
     const [searchValue, setSearchValue] = useState<string>(stringOrBlank(customer?.formatted_address))
     const [addrError, setAddrError] = useState<string>('')
@@ -47,7 +48,7 @@ export function ShopifyCustomer({ phone, customer, reset }: ShopifyCustomerInter
         }
     }, [predictions])
 
-    const [saveForm, isBusy] = useSaveForm(params.noSave,
+    const [saveForm, isBusy] = useSaveForm(params.noSave, template,
         () => {
             console.log('saveForm-callback')
             reset()

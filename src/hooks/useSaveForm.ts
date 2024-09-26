@@ -3,12 +3,14 @@ import { getChatGPT, googleGeocode, createMongoItem, saveShopifyCustomer, sendEm
 import { KioskFormType } from "../components";
 import { dateFormat, getAddressComponent } from "../utils";
 import { useErrorBoundary } from "react-error-boundary";
+import { usePrint } from "./usePrint";
 
 const CONST_GPT_PROMPT = 'Parse this information into a list of items and quantities: {items}. Your response should be in the following JSON format: [  {    "prod": "Item 1", "qty": "Quantity 1"  }]'
 
-export function useSaveForm(noSave = false, callBack: () => void) {
+export function useSaveForm(noSave = false, template: string | undefined, callBack: () => void) {
     const [isBusy, setIsBusy] = useState(false)
     const { showBoundary } = useErrorBoundary()
+    const printer = usePrint()
 
 
     const saveForm = async (values: KioskFormType) => {
@@ -70,7 +72,11 @@ export function useSaveForm(noSave = false, callBack: () => void) {
                 })
             ])
             console.log('mongo/shopify', responses)
-
+            printer('receipt', template, {
+                DATE: values.date, TIME: '', NAME: `${values.firstName} ${values.lastName}`,
+                ADDRESS: `${address.address1} ${address.address2}, ${address.city} ${address.province}`,
+                LIST: values.donations, IMAGES: ''
+            })
             // Cleanup
             callBack()
         } catch (error) {
