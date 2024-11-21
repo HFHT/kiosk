@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPrintTemplate } from "../services/getPrintTemplate"
+import { getPrintTemplate } from "../services"
 
 export function useTemplate() {
     const [printTemplate, setPrintTemplate] = useState(undefined)

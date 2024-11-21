@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import PhoneInput from "react-phone-input-2";
 import { useShopifyPhoneLookup } from "../../hooks";
-import { Box, Button, Flex, LoadingOverlay, Switch, Title } from "@mantine/core";
+import { Box, Flex, LoadingOverlay, Switch, Title } from "@mantine/core";
 interface ShopifyPhoneInterface {
     onChange: Function
     phone: string | null
