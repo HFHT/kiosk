@@ -24,7 +24,7 @@ const theme = createTheme({
 (async () => {
   try {
     ReactDOM.createRoot(document.getElementById('root')!).render(
-      <StrictMode >
+      // <StrictMode >
         <ErrorBoundary FallbackComponent={TopLevelError} onError={() => console.log('Top Level Error Boundary')}>
           <MantineProvider theme={theme}>
             <BrowserRouter>
@@ -32,7 +32,7 @@ const theme = createTheme({
             </BrowserRouter>
           </MantineProvider>
         </ErrorBoundary>
-      </StrictMode>
+      // </StrictMode>
     )
   }
   catch (e) {
