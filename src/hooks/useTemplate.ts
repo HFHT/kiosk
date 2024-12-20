@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getPrintTemplate } from "../services"
 
-export function useTemplate() {
+export function useTemplate(templateId?: string | undefined) {
     const [printTemplate, setPrintTemplate] = useState(undefined)
     const [isTemplateBusy, setIsBusy] = useState(false)
     useEffect(() => {
@@ -9,8 +9,9 @@ export function useTemplate() {
     }, [])
 
     const getTemplate = async () => {
+        console.log(templateId)
         setIsBusy(true)
-        let template = await getPrintTemplate()
+        let template = await getPrintTemplate(templateId)
         setPrintTemplate(template.template)
         setIsBusy(false)
     }

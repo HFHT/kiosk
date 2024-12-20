@@ -2,10 +2,13 @@ import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/fu
 var MongoClient = require('mongodb').MongoClient;
 
 export async function getPrintTemplate(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
+    var _id = request.query.get('_id')
+    _id = _id ? _id : 'PrintTemplate'
+    context.log('template', _id)
     const client = new MongoClient(process.env.ATLAS_URI)
     await client.connect()
     try {
-        const template = await client.db('Kiosk').collection('Settings').findOne({ _id: 'PrintTemplate' })
+        const template = await client.db('Kiosk').collection('Settings').findOne({ _id: _id })
         return {
             body: JSON.stringify({ ...template }), status: 200
         }

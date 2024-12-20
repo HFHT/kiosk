@@ -11,6 +11,11 @@ export function Navbar({ close }: any) {
         onClick={() => { close(); navigate('/'); }}
         style={{ margin: '5px' }}
       />
+      <NavLink
+        label="Settings"
+        onClick={() => { close(); navigate('/receipt'); }}
+        style={{ margin: '5px' }}
+      />
     </AppShell.Navbar>
   );
 };
