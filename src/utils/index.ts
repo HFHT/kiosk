@@ -1,4 +1,5 @@
 export * from './dates'
 export * from './google/getAddressComponent'
 export * from './forms'
+export * from './templateFill'
 export * from './uniqueKey'

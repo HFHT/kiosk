@@ -1,3 +1,4 @@
+//deprecated
 import { fetchJson } from "."
 import { isEmail } from "../utils"
 

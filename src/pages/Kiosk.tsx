@@ -4,7 +4,7 @@ import { Box, Grid, LoadingOverlay } from "@mantine/core";
 import { useTemplate } from "../hooks";
 
 export function Kiosk({ props }: any) {
-  const { printTemplate, isTemplateBusy } = useTemplate()
+  const { printTemplate, isTemplateBusy } = useTemplate('PrintTemplateV1')
 
   const [customer, setCustomer] = useState()
   const [phone, setPhone] = useState('+1')

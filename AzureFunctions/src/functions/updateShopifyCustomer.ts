@@ -19,7 +19,7 @@ async function updateShopifyCustomer(request: HttpRequest, context: InvocationCo
                 )
                     .then(res => {
                         context.log('fetchResult', res)
-                        if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`)
+                        if (!res.ok) console.warn(`Update Shopify failed: ${res.status}: ${res.statusText}`)
                         return res.json()
                     })
             )

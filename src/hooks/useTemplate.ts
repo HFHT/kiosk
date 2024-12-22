@@ -12,7 +12,7 @@ export function useTemplate(templateId?: string | undefined) {
         console.log(templateId)
         setIsBusy(true)
         let template = await getPrintTemplate(templateId)
-        setPrintTemplate(template.template)
+        setPrintTemplate(template)
         setIsBusy(false)
     }
     return { getTemplate, printTemplate, isTemplateBusy }

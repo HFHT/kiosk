@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { getChatGPT, googleGeocode, createMongoItem, saveShopifyCustomer, sendEmail } from "../services";
+import { getChatGPT, googleGeocode, createMongoItem, saveShopifyCustomer, sendEmailHTML } from "../services";
 import { KioskFormType } from "../components";
-import { dateFormat, getAddressComponent } from "../utils";
+import { dateFormat, emailFill, getAddressComponent } from "../utils";
 import { useErrorBoundary } from "react-error-boundary";
 import { usePrint } from "./usePrint";
 
 const CONST_GPT_PROMPT = 'Parse this information into a list of items and quantities: {items}. Your response should be in the following JSON format: [  {    "prod": "Item 1", "qty": "Quantity 1"  }]'
 
-export function useSaveForm(noSave = false, template: string | undefined, callBack: () => void) {
+export function useSaveForm(noSave = false, template: { template: string, email: string } | undefined, callBack: () => void) {
     const [isBusy, setIsBusy] = useState(false)
     const { showBoundary } = useErrorBoundary()
     const printer = usePrint()
@@ -26,7 +26,7 @@ export function useSaveForm(noSave = false, template: string | undefined, callBa
 
             if (!values.anonymous) {
                 const geocode = await googleGeocode(values.place?.description)
-                const address = {
+                address = {
                     address1: `${getAddressComponent(geocode, 'street_number')} ${getAddressComponent(geocode, 'route')}`,
                     address2: values.address2,
                     city: getAddressComponent(geocode, 'locality'),
@@ -47,20 +47,22 @@ export function useSaveForm(noSave = false, template: string | undefined, callBa
                 }
             }
             // 3) Optionally, send email (fire and forget)
-            if (values.emailReceipt) {
-                sendEmail({
+            if (values.emailReceipt && template) {
+                const printOutput = emailFill(template.email, itemList, {
+                    DATE: values.date, TIME: '', NAME: values.anonymous ? 'Donor: Anonymous' : `${values.firstName} ${values.lastName}`,
+                    ADDRESS: values.anonymous ? '' : `${address.address1} ${address.address2}`,
+                    CITY: values.anonymous ? '' : address.city,
+                    STATE: values.anonymous ? '' : address.province,
+                    ZIP: values.anonymous ? '' : address.zip,
+                    LIST: values.donations, IMAGES: ''
+                })
+                sendEmailHTML({
                     to: values.email,
                     subject: 'HabiStore donation receipt.',
                     noSend: false,
-                    template: {
-                        db: 'Truck', collection: 'Templates', template: 'KioskDonation'
-                    },
-                    replace: {
-                        DATE: values.date, TIME: '', NAME: values.anonymous ? 'Donor: Anonymous' : `${values.firstName} ${values.lastName}`,
-                        ADDRESS: values.anonymous ? '' : `${address.address1} ${address.address2}, ${address.city} ${address.province}`,
-                        LIST: values.donations, IMAGES: ''
-                    }
+                    content: printOutput
                 })
+
                 console.log('eMailSend')
             }
             // 4) Save to MongoDB and, if not anonymous, to Shopify
@@ -76,10 +78,13 @@ export function useSaveForm(noSave = false, template: string | undefined, callBa
                     }, db: 'Kiosk', collection: 'Donations', noSave: noSave
                 })
             ])
-            console.log('mongo/shopify', responses)
-            printer('receipt', template, {
+            console.log('mongo/shopify', responses, address)
+            printer('receipt', template?.template, itemList, {
                 DATE: values.date, TIME: '', NAME: values.anonymous ? 'Donor: Anonymous' : `${values.firstName} ${values.lastName}`,
-                ADDRESS: values.anonymous ? '' : `${address.address1} ${address.address2}, ${address.city} ${address.province}`,
+                ADDRESS: values.anonymous ? '' : `${address.address1} ${address.address2}`,
+                CITY: values.anonymous ? '' : address.city,
+                STATE: values.anonymous ? '' : address.province,
+                ZIP: values.anonymous ? '' : address.zip,
                 LIST: values.donations, IMAGES: ''
             })
             // Cleanup
