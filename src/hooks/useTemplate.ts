@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getPrintTemplate } from "../services"
 
 export function useTemplate(templateId?: string | undefined) {
-    const [printTemplate, setPrintTemplate] = useState(undefined)
+    const [printTemplate, setPrintTemplate] = useState<{ template: string, email: string } | undefined>(undefined)
     const [isTemplateBusy, setIsBusy] = useState(false)
     useEffect(() => {
         if (printTemplate === undefined) getTemplate()
