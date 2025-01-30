@@ -5,9 +5,9 @@ import { dateFormat, emailFill, getAddressComponent } from "../utils";
 import { useErrorBoundary } from "react-error-boundary";
 import { usePrint } from "./usePrint";
 
-const CONST_GPT_PROMPT = 'Parse this information into a list of items and quantities: {items}. Your response should be in the following JSON format: [  {    "prod": "Item 1", "qty": "Quantity 1"  }]'
+// const CONST_GPT_PROMPT = 'Parse this information into a list of items and quantities: {items}. Your response should be in the following JSON format: [  {    "prod": "Item 1", "qty": "Quantity 1"  }]'
 
-export function useSaveForm(noSave = false, template: { template: string, email: string } | undefined, callBack: () => void) {
+export function useSaveForm(noSave = false, template: { template: string, email: string, openAIprompt: any } | undefined, callBack: () => void) {
     const [isBusy, setIsBusy] = useState(false)
     const { showBoundary } = useErrorBoundary()
     const printer = usePrint()
@@ -18,7 +18,12 @@ export function useSaveForm(noSave = false, template: { template: string, email:
         setIsBusy(true)
         try {
             // 1) Get parsed donation list from Open AI
-            const itemList = await getChatGPT(CONST_GPT_PROMPT.replace(/{items}/g, values.donations))
+            let openAIprompt = template?.openAIprompt
+            let jsonString = JSON.stringify(openAIprompt.jsonValue)
+            console.log(jsonString)
+            jsonString = jsonString.replace(new RegExp('{ITEMS}', 'g'), values.donations);
+            console.log(JSON.parse(jsonString))
+            const itemList = await getChatGPT(JSON.parse(jsonString))
             console.log('itemList', itemList)
             // 2) Get address details from google, if not anonymous
             var address: any = { address1: '', address2: '', city: '', province: '', zip: values.zip }
