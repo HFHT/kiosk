@@ -7,7 +7,7 @@ import { predictionType, ShopifyCustomerT, } from '../../types';
 
 interface ShopifyCustomerInterface {
     phone: string
-    template: { template: string, email: string } | undefined
+    template: { template: string, email: string, openAIprompt: any } | undefined
     customer: ShopifyCustomerT | undefined
     anonymous: boolean
     reset: Function
