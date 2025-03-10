@@ -29,9 +29,9 @@ type eMailResponseType = {
 async function sendEmail(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     const req = await request.json() as eMailReqType
     // Fetch requested template and replace all the requested fields.
+    const client = new MongoClient(process.env.ATLAS_URI)
+    await client.connect()
     try {
-        const client = new MongoClient(process.env.ATLAS_URI)
-        await client.connect()
         var emailTemplate: eMailResponseType[] = await client.db(req.template.db).collection(req.template.collection).find({ _id: req.template.template }).toArray()
         Object.entries(req.replace).forEach(([key, value]: any) => {
             let regex = new RegExp(`{${key}}`, 'g')
@@ -39,8 +39,10 @@ async function sendEmail(request: HttpRequest, context: InvocationContext): Prom
         })
     } catch (error) {
         context.error(error)
+        await client.close()
         return { body: JSON.stringify({ err: true, error: error }), status: 501 }
     }
+    await client.close()
 
     const message = {
         senderAddress: senderAddress,

@@ -9,11 +9,13 @@ export async function getPrintTemplate(request: HttpRequest, context: Invocation
     await client.connect()
     try {
         const template = await client.db('Kiosk').collection('Settings').findOne({ _id: _id })
+        await client.close()
         return {
             body: JSON.stringify({ ...template }), status: 200
         }
     } catch (error) {
         context.error(error)
+        await client.close()
         return { body: JSON.stringify({ err: true, error: error }), status: 501 }
     }
 };
