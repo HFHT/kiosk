@@ -21,7 +21,9 @@ export function useSaveForm(noSave = false, template: { template: string, email:
             let openAIprompt = template?.openAIprompt
             let jsonString = JSON.stringify(openAIprompt.jsonValue)
             console.log(jsonString)
-            jsonString = jsonString.replace(new RegExp('{ITEMS}', 'g'), values.donations);
+            const cleanedDonations = values.donations.replace(/[\x00-\x1F\x7F]/g, ' ');
+            console.log(cleanedDonations)
+            jsonString = jsonString.replace(new RegExp('{ITEMS}', 'g'), cleanedDonations);
             console.log(JSON.parse(jsonString))
             const itemList = await getChatGPT(JSON.parse(jsonString))
             console.log('itemList', itemList)
@@ -46,7 +48,7 @@ export function useSaveForm(noSave = false, template: { template: string, email:
                 customer = {
                     first_name: values.firstName, last_name: values.lastName, email: values.email,
                     phone: values.phone, send_email_welcome: false,
-                    note: `${values.note} {${dateFormat(null)}-${values.donations}},`,
+                    note: `${values.note} {${dateFormat(null)}-${cleanedDonations}},`,
                     tags: values.tags.indexOf('kiosk') >= 0 ? values.tags : (values.tags.split(',').concat(['kiosk'])).join(),
                     addresses: [{ ...address }]
                 }
@@ -59,7 +61,7 @@ export function useSaveForm(noSave = false, template: { template: string, email:
                     CITY: values.anonymous ? '' : address.city,
                     STATE: values.anonymous ? '' : address.province,
                     ZIP: values.anonymous ? '' : address.zip,
-                    LIST: values.donations, IMAGES: ''
+                    LIST: cleanedDonations, IMAGES: ''
                 })
                 sendEmailHTML({
                     to: values.email,
@@ -90,7 +92,7 @@ export function useSaveForm(noSave = false, template: { template: string, email:
                 CITY: values.anonymous ? '' : address.city,
                 STATE: values.anonymous ? '' : address.province,
                 ZIP: values.anonymous ? '' : address.zip,
-                LIST: values.donations, IMAGES: ''
+                LIST: cleanedDonations, IMAGES: ''
             })
             // Cleanup
             callBack()
